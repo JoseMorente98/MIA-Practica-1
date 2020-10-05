@@ -69,9 +69,13 @@ var ArchivoController = /** @class */ (function () {
             });
         }); };
         this.cargarTemporal = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-            var query;
+            var body, query;
             return __generator(this, function (_a) {
-                query = "\n            LOAD DATA INFILE '/var/lib/mysql-files/DataCenterData.csv'\n            into table CargaMasiva\n            character set latin1\n            fields terminated by ';'\n            lines terminated by '\r\n'\n            ignore 1 lines\n            (nombre_compania, contacto_compania, correo_compania,\n            telefono_compania, tipo, nombre, correo, telefono, \n            @var1, direccion, ciudad, codigo_postal, region, \n            producto, categoria_producto, cantidad, precio_unitario)\n            set fecha_registro = str_to_date(@var1, '%d/%m/%Y');\n        ";
+                body = {
+                    path: req.body.path,
+                };
+                console.log(body.path);
+                query = "\n            LOAD DATA INFILE '" + body.path + "'\n            into table CargaMasiva\n            character set latin1\n            fields terminated by ';'\n            lines terminated by '\r\n'\n            ignore 1 lines\n            (nombre_compania, contacto_compania, correo_compania,\n            telefono_compania, tipo, nombre, correo, telefono, \n            @var1, direccion, ciudad, codigo_postal, region, \n            producto, categoria_producto, cantidad, precio_unitario)\n            set fecha_registro = str_to_date(@var1, '%d/%m/%Y');\n        ";
                 mysq_1.default.getQuery(query, function (err, data) {
                     if (err) {
                         res.status(400).json({
@@ -229,7 +233,7 @@ var ArchivoController = /** @class */ (function () {
         this.getReporte3 = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
             var query, body;
             return __generator(this, function (_a) {
-                query = "\n            SELECT COUNT(*) AS cantidad, TablaTemporal.region, \n            TablaTemporal.ciudad, TablaTemporal.codigo_postal, TablaTemporal.direccion FROM\n            (SELECT Direccion.direccion, Direccion.codigo_postal, Ciudad.ciudad, Region.region FROM DetalleOrden\n            INNER JOIN Orden ON DetalleOrden.orden = Orden.id\n            INNER JOIN Cliente ON Orden.cliente = Cliente.id\n            INNER JOIN Direccion ON Orden.direccion = Direccion.id\n            INNER JOIN Ciudad ON Direccion.ciudad = Ciudad.id\n            INNER JOIN Region ON Ciudad.region = Region.id\n            GROUP BY orden\n            ORDER BY total DESC) AS TablaTemporal\n            GROUP BY TablaTemporal.region, TablaTemporal.ciudad, TablaTemporal.codigo_postal, TablaTemporal.direccion\n            ORDER BY cantidad DESC;\n        ";
+                query = "\n            SELECT COUNT(*) AS cantidad, TablaTemporal.region, \n            TablaTemporal.ciudad, TablaTemporal.codigo_postal, TablaTemporal.direccion FROM\n            (SELECT Direccion.direccion, Direccion.codigo_postal, Ciudad.ciudad, Region.region FROM DetalleOrden\n            INNER JOIN Orden ON DetalleOrden.orden = Orden.id\n            INNER JOIN Cliente ON Orden.cliente = Cliente.id\n            INNER JOIN Direccion ON Orden.direccion = Direccion.id\n            INNER JOIN Ciudad ON Direccion.ciudad = Ciudad.id\n            INNER JOIN Region ON Ciudad.region = Region.id\n            GROUP BY orden) AS TablaTemporal\n            GROUP BY TablaTemporal.region, TablaTemporal.ciudad, TablaTemporal.codigo_postal, TablaTemporal.direccion\n            ORDER BY cantidad DESC;\n        ";
                 body = {
                     idForo: req.params.id
                 };

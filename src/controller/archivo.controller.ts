@@ -39,8 +39,13 @@ export default class ArchivoController {
     }
 
     cargarTemporal = async (req: any, res: Response) => {
+        let body = {
+            path: req.body.path,
+        }
+        console.log(body.path)
+        
         const query = `
-            LOAD DATA INFILE '/var/lib/mysql-files/DataCenterData.csv'
+            LOAD DATA INFILE '${body.path}'
             into table CargaMasiva
             character set latin1
             fields terminated by ';'
@@ -228,8 +233,7 @@ export default class ArchivoController {
             INNER JOIN Direccion ON Orden.direccion = Direccion.id
             INNER JOIN Ciudad ON Direccion.ciudad = Ciudad.id
             INNER JOIN Region ON Ciudad.region = Region.id
-            GROUP BY orden
-            ORDER BY total DESC) AS TablaTemporal
+            GROUP BY orden) AS TablaTemporal
             GROUP BY TablaTemporal.region, TablaTemporal.ciudad, TablaTemporal.codigo_postal, TablaTemporal.direccion
             ORDER BY cantidad DESC;
         `;
