@@ -1,0 +1,24 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var archivo_controller_1 = __importDefault(require("./../controller/archivo.controller"));
+var archivo = express_1.Router();
+archivo.post('/cargarTemporal', archivo_controller_1.default.getInstance().cargarTemporal);
+archivo.post('/cargarModelo', archivo_controller_1.default.getInstance().cargarModelo);
+archivo.delete('/eliminarTemporal', archivo_controller_1.default.getInstance().eliminarTemporal);
+archivo.delete('/eliminarModelo', archivo_controller_1.default.getInstance().eliminarModelo);
+archivo.get('/showTemporal', archivo_controller_1.default.getInstance().getAll);
+archivo.get('/consulta1', archivo_controller_1.default.getInstance().getReporte1);
+archivo.get('/consulta2', archivo_controller_1.default.getInstance().getReporte2);
+archivo.get('/consulta3', archivo_controller_1.default.getInstance().getReporte3);
+archivo.get('/consulta4', archivo_controller_1.default.getInstance().getReporte4);
+archivo.get('/consulta5', archivo_controller_1.default.getInstance().getReporte5);
+archivo.get('/consulta6', archivo_controller_1.default.getInstance().getReporte6);
+archivo.get('/consulta7', archivo_controller_1.default.getInstance().getReporte7);
+archivo.get('/consulta8', archivo_controller_1.default.getInstance().getReporte8);
+archivo.get('/consulta9', archivo_controller_1.default.getInstance().getReporte9);
+archivo.get('/consulta10', archivo_controller_1.default.getInstance().getReporte10);
+exports.default = archivo;
